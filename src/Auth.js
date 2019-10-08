@@ -15,6 +15,7 @@ import {login} from "./Auth.redux";
   }
 }
 const  mapStateToProps = (state, ownProps) => {
+
   return {
     auth: state.auth
   }
