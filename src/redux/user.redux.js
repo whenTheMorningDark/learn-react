@@ -1,8 +1,10 @@
 import axios from "axios";
+import {getRedirectPath} from "../utils";
 const REGISTER_SUCCESS = "REGISTER_SUCCESS"
 const ERROR_MSG = "ERROR_MSG"
 
 const initState = {
+    redirectTo: "",
     msg:"",
     isAuth:false,
     user:"",
@@ -17,7 +19,7 @@ export function user(state = initState,action){
     switch(action.type){
         case REGISTER_SUCCESS:
             // let payload = {...action.payload,msg:"",isAuth:true}
-            return {...state,msg:"",isAuth:true,...action.payload}; // 很奇怪的地方 p33
+            return {...state,msg:"",isAuth:true,redirectTo:getRedirectPath(action.payload),...action.payload}; // 很奇怪的地方 p33
         case ERROR_MSG:
             return {...state,isAuth:false,msg:action.msg}
         default:
@@ -39,16 +41,16 @@ export function register({user,pwd,repeatpwd,type}){
     if(pwd !== repeatpwd) {
         return errorMsg("两次密码要一致");  
     }
-    return registerSuccess({user,pwd,type})
-    // return dispatchEvent=>{
-    //     axios.post("/user/register",{user,pwd,type})
-    //     .then(res=>{
-    //         if(res.status === 200 && res.data.code ===0) {
-    //             dispatchEvent(registerSuccess({user,pwd,type}))
-    //         }else {
-    //             dispatchEvent(errorMsg(res.data.msg))
-    //         }
-    //     })
-    // }
+    // return registerSuccess({user,pwd,type})
+    return dispatchEvent=>{
+        axios.post("/user/register",{user,pwd,type})
+        .then(res=>{
+            if(res.status === 200 && res.data.code ===0) {
+                dispatchEvent(registerSuccess({user,pwd,type}))
+            }else {
+                dispatchEvent(errorMsg(res.data.msg))
+            }
+        })
+    }
     
 }

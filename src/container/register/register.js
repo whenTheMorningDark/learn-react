@@ -2,6 +2,7 @@ import React from "react";
 import Logo from "../../component/logo/logo"
 import {List,InputItem,WhiteSpace,Button,Radio} from "antd-mobile";
 import {connect} from "react-redux";
+import {Redirect} from "react-router-dom";
 import {register} from "../../redux/user.redux";
 const mapStateToProps = (state)=>{
     return {
@@ -28,12 +29,18 @@ class Register extends React.Component{
         // console.log(this.props);
         // 直接调用reduce中的register()
         this.props.register(this.state);
-        console.log(this.props);
+        // console.log(this.state);
+        // axios.post("/user/register",this.state).then(res=>{
+        //     console.log(res);
+        // })
+        // console.log(this.props);
     }
     render(){
         const RadioIten = Radio.RadioItem;
+        console.log(this.props.user.redirectTo);
         return (
             <div>
+                {this.props.user.redirectTo?<Redirect to={this.props.user.redirectTo}/>:null}
                 <Logo></Logo>
                 <List>
                     <p>{this.props.user.msg}</p>
