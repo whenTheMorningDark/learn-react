@@ -5,9 +5,10 @@ import {createStore, applyMiddleware} from "redux";
 import thunk from "redux-thunk";
 import {Provider} from "react-redux";
 import reducers from "./reducer"
-import {BrowserRouter,Route} from "react-router-dom";
+import {BrowserRouter,Route,Switch} from "react-router-dom";
 import Login from "./container/login/login";
 import Register from "./container/register/register";
+import BossInfo from "./container/bossinfo/bossinfo";
 import AuthRoute from "./component/authroute/authroute"
 import 'antd-mobile/dist/antd-mobile.css';
 
@@ -17,8 +18,11 @@ ReactDOM.render(
     <BrowserRouter>
       <div>
         <AuthRoute></AuthRoute>
-        <Route path="/login" component={Login}></Route>
-        <Route path="/register" component={Register}></Route>
+        <Switch>
+          <Route path="/bossinfo" component={BossInfo}></Route>
+          <Route path="/login" component={Login}></Route>
+          <Route path="/register" component={Register}></Route>
+        </Switch>
       </div>
     </BrowserRouter>
   </Provider>),

@@ -3,12 +3,12 @@ import {getRedirectPath} from "../utils";
 const REGISTER_SUCCESS = "REGISTER_SUCCESS"
 const ERROR_MSG = "ERROR_MSG"
 const LOGIN_SUCCESS = "LOGIN_SUCCESS"
+const LOADDATA = "LOADDATA"
 const initState = {
     redirectTo: "",
     msg:"",
     isAuth:false,
     user:"",
-    pwd:"",
     type:""
 }
 
@@ -22,6 +22,8 @@ export function user(state = initState,action){
             return {...state,msg:"",isAuth:true,redirectTo:getRedirectPath(action.payload),...action.payload}; // 很奇怪的地方 p33
         case LOGIN_SUCCESS: 
             return {...state,msg:"",isAuth:true,redirectTo:getRedirectPath(action.payload),...action.payload}
+        case LOADDATA:
+             return {...state,msg:"",isAuth:true,redirectTo:getRedirectPath(action.payload),...action.payload}
         case ERROR_MSG:
             return {...state,isAuth:false,msg:action.msg}
         default:
@@ -35,6 +37,10 @@ function errorMsg(msg){
 export function registerSuccess(data){
     return {type:REGISTER_SUCCESS,payload:data}
 }
+export function loadData(userInfo) {
+    return {type:LOADDATA,payload:userInfo}
+}
+
 // 登录的reduce
 export function login({user,pwd}){
     if(!user || !pwd){
