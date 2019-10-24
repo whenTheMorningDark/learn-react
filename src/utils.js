@@ -5,5 +5,7 @@ export function getRedirectPath({type,avatar}){
     if(!avatar) {
         url += "info"
     }
+    console.log(avatar);
+    console.log(url);
     return url;
 }

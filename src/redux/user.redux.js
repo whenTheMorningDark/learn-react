@@ -1,9 +1,10 @@
 import axios from "axios";
 import {getRedirectPath} from "../utils";
-const REGISTER_SUCCESS = "REGISTER_SUCCESS"
+// const REGISTER_SUCCESS = "REGISTER_SUCCESS"
 const ERROR_MSG = "ERROR_MSG"
-const LOGIN_SUCCESS = "LOGIN_SUCCESS"
+// const LOGIN_SUCCESS = "LOGIN_SUCCESS"
 const LOADDATA = "LOADDATA"
+const AUTH_SUCESS = "AUTH_SUCESS";
 const initState = {
     redirectTo: "",
     msg:"",
@@ -17,11 +18,9 @@ export function user(state = initState,action){
     console.log(action);
     // if(ac)
     switch(action.type){
-        case REGISTER_SUCCESS:
+        case AUTH_SUCESS:
             // let payload = {...action.payload,msg:"",isAuth:true}
-            return {...state,msg:"",isAuth:true,redirectTo:getRedirectPath(action.payload),...action.payload}; // 很奇怪的地方 p33
-        case LOGIN_SUCCESS: 
-            return {...state,msg:"",isAuth:true,redirectTo:getRedirectPath(action.payload),...action.payload}
+            return {...state,msg:"",redirectTo:getRedirectPath(action.payload),...action.payload}; // 很奇怪的地方 p33
         case LOADDATA:
              return {...state,msg:"",isAuth:true,redirectTo:getRedirectPath(action.payload),...action.payload}
         case ERROR_MSG:
@@ -34,11 +33,24 @@ function errorMsg(msg){
     // console.log(msg);
     return {msg, type:ERROR_MSG}
 }
-export function registerSuccess(data){
-    return {type:REGISTER_SUCCESS,payload:data}
+function authSuccess(obj) {
+    const {pwd, ...data} = obj; // 过滤pwd
+    return {type:AUTH_SUCESS,payload:data}
 }
 export function loadData(userInfo) {
     return {type:LOADDATA,payload:userInfo}
+}
+export function update(data){
+    return dispatchEvent=>{
+        axios.post("/user/update",data)
+            .then(res=>{
+                if(res.status === 200 && res.data.code ===0) {
+                    dispatchEvent(authSuccess(res.data.data))
+                }else {
+                    dispatchEvent(errorMsg(res.data.msg))
+                }
+            })
+    }
 }
 
 // 登录的reduce
@@ -50,16 +62,12 @@ export function login({user,pwd}){
         axios.post("/user/login",{user,pwd})
         .then(res=>{
             if(res.status === 200 && res.data.code ===0) {
-                dispatchEvent(loginSuccess(res.data.data))
+                dispatchEvent(authSuccess(res.data.data))
             }else {
                 dispatchEvent(errorMsg(res.data.msg))
             }
         })
     }
-}
-
-function loginSuccess(data) {
-    return {type:LOGIN_SUCCESS,payload:data}
 }
 
 export function register({user,pwd,repeatpwd,type}){
@@ -75,7 +83,7 @@ export function register({user,pwd,repeatpwd,type}){
         axios.post("/user/register",{user,pwd,type})
         .then(res=>{
             if(res.status === 200 && res.data.code ===0) {
-                dispatchEvent(registerSuccess({user,pwd,type}))
+                dispatchEvent(authSuccess({user,pwd,type}))
             }else {
                 dispatchEvent(errorMsg(res.data.msg))
             }

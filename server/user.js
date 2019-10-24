@@ -51,6 +51,29 @@ Router.post("/login",(req,res)=>{
         return res.json({code:0,data:doc})
     })
 })
+// 更新
+Router.post("/update",(req,res)=>{
+    const { userid } = req.cookies;
+    if(!userid) {
+        return res.json({code:1})
+    }
+    const body = req.body;
+    User.findByIdAndUpdate(userid,body,(err,doc)=>{
+        const data = Object.assign({},{
+            user:doc.user,
+            type:doc.type
+        },body)
+        return res.json({code:0,data});
+    })
+    // const { user,pwd} = req.body;
+    // User.findOne({user,pwd:md5Pwd(pwd)},{"pwd":0},(err,doc)=>{
+    //     if(!doc){
+    //         return res.json({code:1,msg:"用户名密码报错!"})
+    //     }
+    //     res.cookie("userid", doc._id);
+    //     return res.json({code:0,data:doc})
+    // })
+})
 Router.get("/info",(req,res)=>{
     const {userid} = req.cookies;
     if(!userid) {

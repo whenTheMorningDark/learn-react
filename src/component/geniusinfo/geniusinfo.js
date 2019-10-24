@@ -10,12 +10,15 @@ const mapStateToProps = (state)=>{
     }
 }
 const actionCreators = {update};
-// 8-1
- class BossInfo extends Component {
+
+ class GeniusInfo extends Component {
     constructor(props){
         super(props);
         this.state = {
-            title:""
+            title:"",
+            desc:"",
+            company:"",
+            money:""
         }
     }
     onChange(key,val) {
@@ -24,12 +27,14 @@ const actionCreators = {update};
         })
     }
     render() {
+        // const path = this.props.location.pathname;
+        const redirect = this.props.user.redirectTo;
+        // console.log(this.props.user.redirectTo);
         return (
-            <div className="BossInfo"> 
-                {/* <Redirect to={this.props.redirectTo}/> */}
-                
-                {this.props.user.redirectTo?<Redirect to={this.props.user.redirectTo}/>:null}
-                <NavBar mode="dark">Boss完善信息页面</NavBar>
+            <div className="geniusinfo"> 
+
+                {redirect?<Redirect to={this.props.user.redirectTo}/>:null}
+                <NavBar mode="dark">牛人完善信息页面</NavBar>
                 <AvatarSelector
                     selectAvatar={(image)=>{
                         this.setState({
@@ -38,19 +43,13 @@ const actionCreators = {update};
                     }}
                 ></AvatarSelector>
                 <InputItem onChange={(v)=>this.onChange("title",v)}>
-                    招聘职位
-                </InputItem>
-                <InputItem onChange={(v)=>this.onChange("company",v)}>
-                    公司名称
-                </InputItem>
-                <InputItem onChange={(v)=>this.onChange("money",v)}>
-                    职位薪资
+                    求职岗位
                 </InputItem>
                 <TextareaItem 
                     onChange={(v)=>this.onChange("desc",v)}
                     rows={3}
                     autoHeight
-                    title="职位要求"
+                    title="个人简介"
                     >
                 </TextareaItem>
                 <Button type="primary" onClick={()=>{
@@ -60,5 +59,5 @@ const actionCreators = {update};
         )
     }
 }
-BossInfo = connect(mapStateToProps,actionCreators)(BossInfo);
-export default BossInfo;
+GeniusInfo = connect(mapStateToProps,actionCreators)(GeniusInfo);
+export default GeniusInfo;
