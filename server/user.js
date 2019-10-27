@@ -10,8 +10,9 @@ const _filter = {"pwd":0}
 Router.get("/list",function(req,res){
     //从user表查询数据
     // User.remove({},function(err,doc){});
-    User.find({},function(err,doc){
-        return res.json(doc);
+    const {type} = req.query;
+    User.find({type},function(err,doc){
+        return res.json({code:0,data:doc});
     })
 })
 Router.post("/register",(req,res)=>{

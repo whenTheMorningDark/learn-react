@@ -11,9 +11,13 @@ import Register from "./container/register/register";
 import BossInfo from "./container/bossinfo/bossinfo";
 import AuthRoute from "./component/authroute/authroute";
 import GeniusInfo from "./component/geniusinfo/geniusinfo";
+import Dashborad from "./component/dashborad/dashborad";
 import 'antd-mobile/dist/antd-mobile.css';
-
+import "./static/css/main.css";
 const store = createStore(reducers,applyMiddleware(thunk));
+// function Dashborad() {
+//   return <h2>Dashborad</h2>
+// }
 ReactDOM.render(
   (<Provider store={store}>
     <BrowserRouter>
@@ -24,6 +28,7 @@ ReactDOM.render(
           <Route path="/geniusinfo" component={GeniusInfo}></Route>
           <Route path="/login" component={Login}></Route>
           <Route path="/register" component={Register}></Route>
+          <Route component={Dashborad}></Route>
         </Switch>
       </div>
     </BrowserRouter>
