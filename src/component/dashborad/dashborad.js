@@ -4,14 +4,13 @@ import {connect} from "react-redux";
 import {NavBar} from "antd-mobile";
 import NavLinkBar from "../navlink/navlink";
 import Boss from "../../component/Boss/Boss";
-function Genius() {
-    return <h2>Genius</h2>
-}
+import Genius from "../../component/genius/genius"
+import User from "../../component/user/user"
+// function Genius() {
+//     return <h2>Genius</h2>
+// }
 function Msg() {
     return <h2>msg</h2>
-}
-function User() {
-    return <h2>User</h2>
 }
 const mapStateToProps = (state)=>{
     return {
@@ -33,7 +32,7 @@ const actionCreators = {};
             {path:"/me",text:"我",icon:"m",title:"个人中心",component: User}
         ]
         return (
-            <div>
+            <div style={{paddingBottom:52}}>
                 <NavBar mode="dark" className="fixed-header">
                     {navList.find((v)=>v.path === pathname).title}
                 </NavBar>
