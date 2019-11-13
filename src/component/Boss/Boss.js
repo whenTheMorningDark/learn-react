@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import {Card,WhiteSpace,WingBlank} from "antd-mobile";
 import {connect} from "react-redux";
 import {getUserList} from "../../redux/list.redux.js";
+import UserCard from "../../component/usercard/usercard"; // 公共的usercard
+// 9-2
 const mapStateToProps = (state)=>{
     console.log(state.chatuser.userlist);
     return {
@@ -24,20 +25,7 @@ class Boss extends Component {
         console.log(this.props.chatuser);
         const data = this.props.chatuser.userlist;
         return (
-            <WingBlank>
-                {data.map(v=>{
-                    return v.avatar? <div key={v._id}>
-                        <WhiteSpace></WhiteSpace>
-                        <Card key={v._id}>
-                        <Card.Header  title={v.user} thumb={require(`../avatarSelector/images/${v.avatar}.png`)} extra={<span>{v.title}</span>}>
-                        </Card.Header>
-                        <Card.Body>
-                            {v.desc}
-                        </Card.Body>
-                    </Card>
-                    </div>:null
-                })}
-            </WingBlank>
+            <UserCard userlist={data}></UserCard>
         )
     }
 }
